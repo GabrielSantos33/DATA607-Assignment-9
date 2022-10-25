@@ -1,0 +1,48 @@
+---
+title: "DATA 607 Week10 - Assignment 9"
+author: "Gabriel Santos"
+date: '2022-10-29'
+output: html_document
+---
+
+
+# Assignment – Web APIs
+The New York Times web site provides a rich set of APIs, as described here: https://developer.nytimes.com/apis You’ll need to start by signing up for an API key. Your task is to choose one of the New York Times APIs, construct an interface in R to read in the JSON data, and transform it into an R DataFrame.
+
+
+## Loading the required packages
+```{r}
+library(httr)
+library(jsonlite)
+library(dplyr)
+```
+
+```{r}
+library(kableExtra)
+```
+
+## Reading and Transforming Data
+
+```{r}
+api_url <- "https://api.nytimes.com/svc/topstories/v2/sports.json?api-key=AZOD76QQdc9NB0phLXKN06sefOUezQaO"
+
+# Read JSON data from the API
+json_object <- fromJSON(api_url)
+
+# Conver JSON to DataFrame
+travel_df <- json_object$results
+class(travel_df) # COnfirm it is a dataframe
+```
+
+```{r}
+# Column names
+colnames(travel_df)
+```
+
+```{r}
+# Select relevant columns
+travel_df <- subset(travel_df, select = c(section, title, abstract, url, byline))
+
+# Show the first 20 records
+head(travel_df,20)
+```
